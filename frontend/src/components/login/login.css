@@ -1,0 +1,16 @@
+
+.listContainer {
+    display: grid;
+    place-items: center; 
+    grid-auto-flow: column; 
+    height: 20vh;         
+    gap: 5px;             
+  }
+
+#loginForm {
+    width: 50%;
+    padding: 20px;
+
+    border: 2px solid gainsboro;
+    border-radius: 10px;
+}

@@ -1,0 +1,18 @@
+.listContainer {
+    display: grid;
+    place-items: center; 
+    grid-auto-flow: column; 
+    height: 20vh;         
+    gap: 5px;             
+  }
+  
+
+
+
+.list {
+    width: 80%;
+    padding: 20px;
+
+    border: 2px solid gainsboro;
+    border-radius: 10px;
+}
