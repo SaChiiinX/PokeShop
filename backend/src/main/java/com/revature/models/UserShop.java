@@ -20,7 +20,7 @@ public class UserShop {
     @JoinColumn(name = "userId")
     private User user;
 
-    @ManyToMany(cascade = CascadeType.REMOVE)
+    @ManyToMany
     @JoinTable(
             name = "user_shop_pokemon",
             joinColumns = @JoinColumn(name = "userShopId"),

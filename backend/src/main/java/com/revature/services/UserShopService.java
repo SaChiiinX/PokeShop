@@ -1,7 +1,7 @@
 package com.revature.services;
 
 import com.revature.daos.UserShopDAO;
-import com.revature.exceptions.user.UserExistsException;
+import com.revature.exceptions.usershop.UserShopExistsException;
 import com.revature.exceptions.user.UserNotFoundException;
 import com.revature.models.Pokemon;
 import com.revature.models.User;
@@ -25,21 +25,22 @@ public class UserShopService {
         this.pokemonService = pokemonService;
     }
 
-    public UserShop addUserShop(int userId) throws UserExistsException, UserNotFoundException {
+    public UserShop addUserShop(int userId) throws UserShopExistsException, UserNotFoundException {
         Optional<UserShop> optionalUserShop = userShopDAO.findByUserId(userId);
         if(optionalUserShop.isPresent()){
-            throw new UserExistsException();
+            throw new UserShopExistsException();
         }
         UserShop userShop = new UserShop();
         User user = userService.getUserById(userId);
         userShop.setUser(user);
+        userShopDAO.save(userShop);
         return updateUserShop(userId);
     }
 
     public UserShop getUserShop(int userId) throws UserNotFoundException {
         Optional<UserShop> optionalUserShop = userShopDAO.findByUserId(userId);
         if(optionalUserShop.isEmpty()){
-            throw new UserNotFoundException();
+            return addUserShop(userId);
         }
         return optionalUserShop.get();
     }

@@ -1,9 +1,12 @@
 package com.revature.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Set;
 
 @Setter
 @Getter
@@ -25,4 +28,12 @@ public class Pokemon{
 
     private String imgUrl;
     private int cost;
+
+    @ManyToMany(mappedBy = "pokemons", cascade = CascadeType.REMOVE)
+    @JsonBackReference
+    private Set<UserShop> userShops;
+
+    @OneToMany(mappedBy = "pokemon", cascade = CascadeType.REMOVE)
+    @JsonBackReference
+    private Set<UserPokemon> userPokemons;
 }

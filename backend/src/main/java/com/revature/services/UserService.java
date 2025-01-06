@@ -8,7 +8,6 @@ import com.revature.exceptions.user.UserNotFoundException;
 import com.revature.models.User;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,12 +16,10 @@ import java.util.Optional;
 @Service
 public class UserService {
     private final UserDAO userDAO;
-    private final UserShopService userShopService;
 
     @Autowired
-    public UserService(UserDAO userDAO, @Lazy UserShopService userShopService){
+    public UserService(UserDAO userDAO){
         this.userDAO = userDAO;
-        this.userShopService = userShopService;
     }
 
     @Transactional
@@ -33,12 +30,14 @@ public class UserService {
         }
 
         String password = user.getPassword();
-        String regex = "^(?=.*\\d)(?=.*[A-Z])(?=.*[!@#$%^&*(),.?\":{}|<>]).+$";
-        if(password.length() < 8 || !password.matches(regex)){
+        String regexCapital = ".*[A-Z].*";
+        String regexSpecialChar = ".*[^a-zA-Z0-9].*";
+        String regexDigit = ".*\\d.*";
+        if(password.length() < 8 || (!password.matches(regexCapital) &&
+                                     !password.matches(regexSpecialChar) &&
+                                     !password.matches(regexDigit))){
             throw new InvalidUserException();
         }
-
-        userShopService.addUserShop(user.getUserId());
         return userDAO.save(user);
     }
 
